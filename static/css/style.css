@@ -1,0 +1,259 @@
+/* ============================================================
+   RailWise AI — Global Design System
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap');
+
+:root {
+  --primary: #6c63ff;
+  --primary-dark: #4f46e5;
+  --primary-glow: rgba(108, 99, 255, 0.35);
+  --accent: #06d6a0;
+  --accent-glow: rgba(6, 214, 160, 0.3);
+  --danger: #ff6b6b;
+  --warning: #ffd166;
+  --bg-dark: #0a0a14;
+  --bg-card: rgba(255, 255, 255, 0.06);
+  --bg-card-hover: rgba(255, 255, 255, 0.1);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --text-primary: #f0f0ff;
+  --text-muted: rgba(240, 240, 255, 0.55);
+  --shadow-glow: 0 8px 32px rgba(108, 99, 255, 0.2);
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --bg-dark: #f0f0f9;
+  --bg-card: rgba(255, 255, 255, 0.75);
+  --bg-card-hover: rgba(255, 255, 255, 0.9);
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --text-primary: #1a1a2e;
+  --text-muted: rgba(26, 26, 46, 0.55);
+  --shadow-glow: 0 8px 32px rgba(108, 99, 255, 0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -20%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(6, 214, 160, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Glassmorphism Card ── */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glow);
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+.glass-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+
+/* ── Navbar ── */
+.navbar-glass {
+  background: rgba(10, 10, 20, 0.7) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+[data-theme="light"] .navbar-glass { background: rgba(240, 240, 249, 0.7) !important; }
+.navbar-brand-text { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.4rem; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.nav-link { color: var(--text-muted) !important; font-weight: 500; transition: color var(--transition); }
+.nav-link:hover, .nav-link.active { color: var(--text-primary) !important; }
+.btn-nav-cta { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border: none; color: #fff; padding: 8px 22px; border-radius: 50px; font-weight: 600; transition: box-shadow var(--transition), transform var(--transition); }
+.btn-nav-cta:hover { box-shadow: 0 4px 20px var(--primary-glow); transform: translateY(-1px); color: #fff; }
+
+/* ── Buttons ── */
+.btn-primary-glow {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border: none;
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.btn-primary-glow:hover { box-shadow: 0 6px 28px var(--primary-glow); transform: translateY(-2px); color: #fff; }
+.btn-accent-glow { background: linear-gradient(135deg, var(--accent), #04a67b); border: none; color: #0a0a14; padding: 12px 32px; border-radius: 50px; font-weight: 600; transition: box-shadow var(--transition), transform var(--transition); }
+.btn-accent-glow:hover { box-shadow: 0 6px 28px var(--accent-glow); transform: translateY(-2px); }
+.btn-glass { background: var(--bg-card); border: 1px solid var(--border-glass); color: var(--text-primary); padding: 10px 24px; border-radius: 50px; font-weight: 500; backdrop-filter: blur(10px); transition: background var(--transition), box-shadow var(--transition); }
+.btn-glass:hover { background: var(--bg-card-hover); box-shadow: var(--shadow-glow); color: var(--text-primary); }
+
+/* ── Gradient Text ── */
+.gradient-text { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.font-outfit { font-family: 'Outfit', sans-serif; }
+
+/* ── Form Controls ── */
+.form-glass { background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); border-radius: var(--radius-md); color: var(--text-primary); padding: 12px 16px; width: 100%; font-size: 0.95rem; transition: border-color var(--transition), box-shadow var(--transition); backdrop-filter: blur(10px); }
+.form-glass:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); color: var(--text-primary); background: rgba(255,255,255,0.08); }
+.form-glass option { background: #1a1a2e; color: var(--text-primary); }
+.form-label-glass { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; letter-spacing: 0.3px; text-transform: uppercase; }
+
+/* ── Status Badges ── */
+.badge-cnf { background: linear-gradient(135deg, #06d6a0, #04a67b); color: #0a0a14; font-weight: 700; padding: 5px 14px; border-radius: 50px; font-size: 0.8rem; }
+.badge-rac { background: linear-gradient(135deg, #ffd166, #f4a261); color: #0a0a14; font-weight: 700; padding: 5px 14px; border-radius: 50px; font-size: 0.8rem; }
+.badge-wl  { background: linear-gradient(135deg, #ff6b6b, #e63946); color: #fff; font-weight: 700; padding: 5px 14px; border-radius: 50px; font-size: 0.8rem; }
+
+/* ── Risk Levels ── */
+.risk-low    { color: var(--accent); font-weight: 700; }
+.risk-medium { color: var(--warning); font-weight: 700; }
+.risk-high   { color: var(--danger); font-weight: 700; }
+
+/* ── Probability Bar ── */
+.prob-bar-wrap { background: rgba(255,255,255,0.08); border-radius: 50px; height: 10px; overflow: hidden; }
+.prob-bar { height: 100%; border-radius: 50px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.prob-bar-cnf { background: linear-gradient(90deg, var(--accent), #04a67b); }
+.prob-bar-rac { background: linear-gradient(90deg, #ffd166, #f4a261); }
+.prob-bar-wl  { background: linear-gradient(90deg, #ff6b6b, #e63946); }
+
+/* ── Gauge Chart ── */
+.gauge-container { position: relative; width: 200px; height: 110px; margin: 0 auto; }
+.gauge-container canvas { width: 100% !important; }
+.gauge-label { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; }
+.gauge-percent { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; }
+.gauge-sub { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ── Stat Cards ── */
+.stat-card { padding: 28px; text-align: center; }
+.stat-card .stat-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.stat-card .stat-value { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; }
+.stat-card .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+
+/* ── Tables ── */
+.table-glass { color: var(--text-primary); }
+.table-glass thead th { color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.8px; border-color: var(--border-glass); padding: 12px 16px; background: transparent; font-weight: 600; }
+.table-glass tbody tr { border-color: var(--border-glass); transition: background var(--transition); }
+.table-glass tbody tr:hover { background: rgba(108,99,255,0.06); }
+.table-glass tbody td { padding: 14px 16px; vertical-align: middle; border-color: var(--border-glass); font-size: 0.9rem; }
+
+/* ── Train Rec Card ── */
+.rec-card { padding: 20px; border-left: 3px solid var(--primary); }
+.rec-card .rec-type { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 4px; }
+.rec-card .rec-title { font-weight: 700; font-size: 1rem; }
+.rec-card .rec-meta { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+
+/* ── Loader Spinner ── */
+.loader-overlay { position: fixed; inset: 0; background: rgba(10,10,20,0.75); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999; display: none; }
+.spinner-glow { width: 56px; height: 56px; border: 3px solid var(--border-glass); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Sections ── */
+.section-hero { min-height: 92vh; display: flex; align-items: center; position: relative; z-index: 1; }
+.hero-heading { font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+.hero-sub { font-size: 1.1rem; color: var(--text-muted); line-height: 1.75; }
+.hero-illustration { width: 100%; max-width: 520px; filter: drop-shadow(0 20px 60px var(--primary-glow)); animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-18px); } }
+
+/* ── Feature Cards ── */
+.feature-icon { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; }
+.feature-icon.purple { background: rgba(108,99,255,0.2); }
+.feature-icon.green  { background: rgba(6,214,160,0.2); }
+.feature-icon.yellow { background: rgba(255,209,102,0.2); }
+.feature-icon.red    { background: rgba(255,107,107,0.2); }
+
+/* ── Steps ── */
+.step-number { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 4px 16px var(--primary-glow); }
+
+/* ── Theme Toggle ── */
+.theme-toggle { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 50px; width: 44px; height: 24px; cursor: pointer; position: relative; transition: background var(--transition); }
+.theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; transition: transform var(--transition); }
+[data-theme="light"] .theme-toggle::after { transform: translateX(20px); }
+
+/* ── Alerts ── */
+.alert-glass { background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.3); border-radius: var(--radius-md); color: var(--text-primary); }
+.alert-glass.success { background: rgba(6,214,160,0.12); border-color: rgba(6,214,160,0.3); }
+.alert-glass.danger  { background: rgba(255,107,107,0.12); border-color: rgba(255,107,107,0.3); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.4); border-radius: 3px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .section-hero { min-height: auto; padding: 80px 0 40px; }
+  .hero-heading { font-size: 2rem; }
+  .gauge-container { width: 160px; height: 90px; }
+  .gauge-percent { font-size: 1.5rem; }
+  .stat-card .stat-value { font-size: 1.6rem; }
+}
+
+/* ── Ticket Summary Layout ── */
+.ticket-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.ticket-summary-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-glass);
+}
+.ticket-summary-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.ticket-summary-value {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+/* ── Probability Breakdown ── */
+.prob-explanation {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ── Confidence Meter ── */
+.confidence-meter {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+.conf-very-high { color: var(--accent); }
+.conf-high { color: var(--primary); }
+.conf-medium { color: var(--warning); }
+.conf-low { color: var(--danger); }

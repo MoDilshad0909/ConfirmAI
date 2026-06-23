@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Prediction Result – ConfirmAI{% endblock %}
+{% block content %}
+<div style="position:relative;z-index:1;padding:50px 0 80px;">
+  <div class="container">
+
+    <div class="d-flex align-items-center gap-3 mb-5">
+      <a href="/dashboard" class="btn btn-glass btn-sm"><i class="fa fa-arrow-left me-1"></i>New Prediction</a>
+      <h1 class="font-outfit fw-bold mb-0" style="font-size:1.7rem;font-weight:800;">Prediction <span class="gradient-text">Result</span></h1>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Left: Gauge + Status -->
+      <div class="col-lg-5">
+        <div class="glass-card p-4 text-center mb-4 d-flex flex-column gap-4">
+          
+          <!-- Gauge Chart -->
+          <div class="d-flex flex-column align-items-center">
+            <h6 style="color:var(--text-muted);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Predicted Probability</h6>
+            <div class="gauge-container" style="width:220px;height:120px;margin-bottom:0;">
+              <canvas id="gaugeCanvas" width="220" height="120"></canvas>
+            </div>
+          </div>
+
+          <!-- Status & Risk -->
+          <div class="d-flex justify-content-center align-items-center gap-4 pt-4" style="border-top:1px solid var(--border-glass);">
+            <div class="d-flex flex-column align-items-center">
+              <div style="font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Predicted Status</div>
+              <span id="res-status" class="badge-cnf" style="font-size:1rem;padding:8px 24px;display:inline-block;">–</span>
+            </div>
+            <div style="width:1px;height:50px;background:var(--border-glass);"></div>
+            <div class="d-flex flex-column align-items-center">
+              <div style="font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Risk Level</div>
+              <div id="res-risk" class="risk-medium" style="font-size:1.1rem;">–</div>
+            </div>
+          </div>
+
+          <!-- Confidence Meter & Probability -->
+          <div class="d-flex flex-column align-items-center pt-4" style="border-top:1px solid var(--border-glass);">
+            <div style="font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Confidence Meter</div>
+            <div class="gauge-percent gradient-text mb-2" id="res-main-pct" style="font-size:3rem;line-height:1;position:relative;">–</div>
+            <div id="res-confidence" class="confidence-meter mb-1" style="font-size:1.1rem;">–</div>
+            <div class="gauge-sub" id="res-main-sub" style="font-size:.85rem;color:var(--text-muted);">Probability</div>
+          </div>
+
+        </div>
+
+      <!-- Ticket Info -->
+        <div class="glass-card p-4 mb-4">
+          <h6 class="fw-700 mb-3" style="font-weight:700;"><i class="fa fa-ticket-alt me-2" style="color:var(--primary);"></i>Ticket Summary</h6>
+          <div class="ticket-summary-grid">
+            <div class="ticket-summary-item">
+              <span class="ticket-summary-label">Train</span>
+              <span class="ticket-summary-value" id="res-train">–</span>
+            </div>
+            <div class="ticket-summary-item">
+              <span class="ticket-summary-label">Route</span>
+              <span class="ticket-summary-value" id="res-route">–</span>
+            </div>
+            <div class="ticket-summary-item">
+              <span class="ticket-summary-label">Class</span>
+              <span class="ticket-summary-value" id="res-class">–</span>
+            </div>
+            <div class="ticket-summary-item">
+              <span class="ticket-summary-label">Quota</span>
+              <span class="ticket-summary-value" id="res-quota">–</span>
+            </div>
+            <div class="ticket-summary-item">
+              <span class="ticket-summary-label">Current WL</span>
+              <span class="ticket-summary-value" id="res-wl-num">–</span>
+            </div>
+            <div class="ticket-summary-item">
+              <span class="ticket-summary-label">Days to Journey</span>
+              <span class="ticket-summary-value" id="res-days">–</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Probability Insights -->
+        <div class="glass-card p-4" id="explainSection" style="display:none;">
+          <h6 class="fw-700 mb-3" style="font-weight:700;"><i class="fa fa-brain me-2" style="color:var(--accent);"></i>Probability Insights</h6>
+          <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:12px;">Why this prediction?</p>
+          
+          <div class="mb-3">
+            <div id="xai-pos-label" style="display:none;"></div>
+            <div id="xai-pos-list" style="font-size:.85rem;color:var(--text-primary);"></div>
+          </div>
+          
+          <div>
+            <div id="xai-neg-label" style="display:none;"></div>
+            <div id="xai-neg-list" style="font-size:.85rem;color:var(--text-primary);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Probability Bars + Recommendations -->
+      <div class="col-lg-7">
+
+        <!-- Probability Breakdown -->
+        <div class="glass-card p-4 mb-4">
+          <h6 class="fw-700 mb-4" style="font-weight:700;"><i class="fa fa-chart-bar me-2" style="color:var(--primary);"></i>Probability Breakdown</h6>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="d-flex align-items-center gap-2"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block;"></span>Confirmed (CNF)</span>
+              <strong id="res-cnf-pct2" style="color:var(--accent);">–</strong>
+            </div>
+            <div class="prob-bar-wrap"><div class="prob-bar prob-bar-cnf" id="bar-cnf" style="width:0%"></div></div>
+            <div class="prob-explanation" id="exp-cnf">Probability of getting a fully confirmed berth.</div>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="d-flex align-items-center gap-2"><span style="width:10px;height:10px;border-radius:50%;background:#ffd166;display:inline-block;"></span>RAC (Shared Seat)</span>
+              <strong id="res-rac-pct" style="color:#ffd166;">–</strong>
+            </div>
+            <div class="prob-bar-wrap"><div class="prob-bar prob-bar-rac" id="bar-rac" style="width:0%"></div></div>
+            <div class="prob-explanation" id="exp-rac">Probability of getting a shared seat (Reservation Against Cancellation).</div>
+          </div>
+
+          <div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="d-flex align-items-center gap-2"><span style="width:10px;height:10px;border-radius:50%;background:var(--danger);display:inline-block;"></span>Waitlisted (WL)</span>
+              <strong id="res-wl-pct" style="color:var(--danger);">–</strong>
+            </div>
+            <div class="prob-bar-wrap"><div class="prob-bar prob-bar-wl" id="bar-wl" style="width:0%"></div></div>
+            <div class="prob-explanation" id="exp-wl">Probability of remaining on the waitlist without a seat.</div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div id="recommendSection">
+          <h6 class="fw-700 mb-3" style="font-weight:700;"><i class="fa fa-route me-2" style="color:var(--accent);"></i>Smart Recommendations</h6>
+          <div class="row g-3" id="recContainer"></div>
+        </div>
+
+        <!-- High probability success message -->
+        <div id="highConfSection" style="display:none;">
+          <div class="glass-card p-4" style="border-left:3px solid var(--accent);">
+            <div class="d-flex align-items-center gap-3">
+              <div style="font-size:2.5rem;">🎉</div>
+              <div>
+                <h6 class="fw-700 mb-1" style="font-weight:700;">Great News!</h6>
+                <p class="mb-0" style="color:var(--text-muted);font-size:.9rem;">Your ticket has a high probability of confirmation. No alternative action needed — sit back and enjoy your journey!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-3 flex-wrap">
+          <a href="/dashboard" class="btn btn-primary-glow"><i class="fa fa-redo me-2"></i>New Prediction</a>
+          <a href="/history" class="btn btn-glass"><i class="fa fa-history me-2"></i>View History</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

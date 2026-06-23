@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Prediction Dashboard – ConfirmAI{% endblock %}
+{% block content %}
+<div style="position:relative;z-index:1;padding:50px 0 80px;">
+  <div class="container">
+
+    <!-- Page Header -->
+    <div class="mb-5">
+      <h1 class="font-outfit fw-bold mb-2" style="font-size:2rem;font-weight:800;">
+        <span class="gradient-text">Predict</span> Your Ticket Status
+      </h1>
+      <p style="color:var(--text-muted);">Enter your booking details below and get an AI-powered confirmation probability instantly.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Prediction Form -->
+      <div class="col-lg-7">
+        <div class="glass-card p-4 p-md-5">
+          <h5 class="fw-700 mb-4" style="font-weight:700;"><i class="fa fa-ticket-alt me-2" style="color:var(--primary);"></i>Booking Details</h5>
+          <form id="predictForm" autocomplete="off">
+            <div class="row g-3">
+
+              <div class="col-md-6">
+                <label class="form-label-glass">Train Number</label>
+                <input name="train_number" type="text" class="form-glass" placeholder="e.g. 12951" required maxlength="5">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-glass">Train Type</label>
+                <select name="train_type" class="form-glass">
+                  <option value="SF">Superfast (SF)</option>
+                  <option value="EXP">Express (EXP)</option>
+                  <option value="RAJ">Rajdhani (RAJ)</option>
+                  <option value="SHT">Shatabdi (SHT)</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label-glass">Source Station</label>
+                <select name="source_station" class="form-glass">
+                  <option value="NDLS">New Delhi (NDLS)</option>
+                  <option value="CSMT">Mumbai CST (CSMT)</option>
+                  <option value="HWH">Howrah (HWH)</option>
+                  <option value="MAS">Chennai (MAS)</option>
+                  <option value="SBC">Bengaluru (SBC)</option>
+                  <option value="BDTS">Bandra Terminus (BDTS)</option>
+                  <option value="PNBE">Patna (PNBE)</option>
+                  <option value="LKO">Lucknow (LKO)</option>
+                  <option value="AII">Ajmer (AII)</option>
+                  <option value="GKP">Gorakhpur (GKP)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-glass">Destination Station</label>
+                <select name="destination_station" class="form-glass">
+                  <option value="CSMT">Mumbai CST (CSMT)</option>
+                  <option value="NDLS">New Delhi (NDLS)</option>
+                  <option value="MAS">Chennai (MAS)</option>
+                  <option value="HWH">Howrah (HWH)</option>
+                  <option value="SBC">Bengaluru (SBC)</option>
+                  <option value="BDTS">Bandra Terminus (BDTS)</option>
+                  <option value="PNBE">Patna (PNBE)</option>
+                  <option value="LKO">Lucknow (LKO)</option>
+                  <option value="AII">Ajmer (AII)</option>
+                  <option value="GKP">Gorakhpur (GKP)</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label-glass">Journey Date</label>
+                <input name="journey_date" type="date" class="form-glass" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-glass">Booking Date</label>
+                <input name="booking_date" type="date" class="form-glass" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label-glass">Class Type</label>
+                <select name="class_type" class="form-glass">
+                  <option value="SL">Sleeper (SL)</option>
+                  <option value="3A">AC 3-Tier (3A)</option>
+                  <option value="2A">AC 2-Tier (2A)</option>
+                  <option value="1A">AC First Class (1A)</option>
+                  <option value="CC">Chair Car (CC)</option>
+                  <option value="2S">Second Seating (2S)</option>
+                  <option value="EC">Executive CC (EC)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-glass">Quota Type</label>
+                <select name="quota_type" class="form-glass">
+                  <option value="GN">General (GN)</option>
+                  <option value="CK">Tatkal (CK)</option>
+                  <option value="LD">Ladies (LD)</option>
+                  <option value="SS">Senior Citizen (SS)</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label-glass">Booking Waitlist No.</label>
+                <input name="booking_wl" type="number" class="form-glass" placeholder="e.g. 45" min="1" max="500" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label-glass">Current Waitlist No.</label>
+                <input name="current_wl" type="number" class="form-glass" placeholder="e.g. 18" min="0" max="500" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label-glass">Current RAC No.</label>
+                <input name="current_rac" type="number" class="form-glass" placeholder="0" min="0" max="150" value="0">
+              </div>
+
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-primary-glow w-100 py-3" style="font-size:1.05rem;">
+                  <i class="fa fa-brain me-2"></i>Predict Confirmation Probability
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Side Panel -->
+      <div class="col-lg-5">
+        <!-- Quick Tips -->
+        <div class="glass-card p-4 mb-4">
+          <h6 class="fw-700 mb-3" style="font-weight:700;"><i class="fa fa-lightbulb me-2" style="color:var(--warning);"></i>Tips for Better Accuracy</h6>
+          <ul style="list-style:none;padding:0;margin:0;color:var(--text-muted);font-size:.88rem;">
+            <li class="d-flex gap-2 mb-2"><span style="color:var(--accent);">✓</span> Use the waitlist number from your official ticket.</li>
+            <li class="d-flex gap-2 mb-2"><span style="color:var(--accent);">✓</span> Enter correct booking date (not today's date).</li>
+            <li class="d-flex gap-2 mb-2"><span style="color:var(--accent);">✓</span> Select festival season accurately — it strongly affects predictions.</li>
+            <li class="d-flex gap-2"><span style="color:var(--accent);">✓</span> Seat capacity is usually 72 for SL, 64 for 3A, 48 for 2A.</li>
+          </ul>
+        </div>
+
+        <!-- Class Guide -->
+        <div class="glass-card p-4">
+          <h6 class="fw-700 mb-3" style="font-weight:700;"><i class="fa fa-info-circle me-2" style="color:var(--primary);"></i>Class Capacity Guide</h6>
+          <table class="w-100" style="font-size:.85rem;color:var(--text-muted);">
+            <thead><tr style="color:var(--text-primary);font-weight:600;"><th>Class</th><th>Capacity/Coach</th><th>RAC Support</th></tr></thead>
+            <tbody>
+              <tr><td class="py-1">Sleeper (SL)</td><td>72</td><td style="color:var(--accent);">Yes</td></tr>
+              <tr><td class="py-1">AC 3-Tier (3A)</td><td>64</td><td style="color:var(--accent);">Yes</td></tr>
+              <tr><td class="py-1">AC 2-Tier (2A)</td><td>48</td><td style="color:var(--accent);">Yes</td></tr>
+              <tr><td class="py-1">AC First (1A)</td><td>18-24</td><td style="color:var(--danger);">No</td></tr>
+              <tr><td class="py-1">Chair Car (CC)</td><td>78</td><td style="color:var(--danger);">No</td></tr>
+              <tr><td class="py-1">2nd Seating (2S)</td><td>108</td><td style="color:var(--danger);">No</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+// Set today & default journey date
+const today = new Date().toISOString().split('T')[0];
+const future = new Date(Date.now() + 45*24*60*60*1000).toISOString().split('T')[0];
+document.querySelector('[name=booking_date]').value = today;
+document.querySelector('[name=journey_date]').value = future;
+</script>
+{% endblock %}

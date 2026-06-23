@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Sign In – ConfirmAI{% endblock %}
+{% block content %}
+<div style="min-height:92vh;display:flex;align-items:center;position:relative;z-index:1;padding:60px 0;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <div class="glass-card p-5">
+          <div class="text-center mb-4">
+            <div style="font-size:2.5rem;margin-bottom:12px;">🚄</div>
+            <h2 class="font-outfit fw-bold gradient-text mb-1" style="font-weight:800;">Welcome to ConfirmAI</h2>
+            <p style="color:var(--text-muted);font-size:.9rem;">Sign in or create an account to track your predictions</p>
+          </div>
+
+          <!-- Tabs -->
+          <ul class="nav nav-pills justify-content-center mb-4 gap-2" id="authTabs">
+            <li class="nav-item">
+              <button class="btn btn-primary-glow px-4" id="loginTab" onclick="switchTab('login')">Sign In</button>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-glass px-4" id="registerTab" onclick="switchTab('register')">Create Account</button>
+            </li>
+          </ul>
+
+          <!-- Login Form -->
+          <div id="loginPanel">
+            <form id="loginForm" autocomplete="off">
+              <div class="mb-4">
+                <label class="form-label-glass">Email Address</label>
+                <input id="loginEmail" name="email" type="email" class="form-glass" placeholder="you@example.com" required>
+              </div>
+              <div class="mb-4">
+                <label class="form-label-glass">Password</label>
+                <input id="loginPass" name="password" type="password" class="form-glass" placeholder="••••••••" required>
+              </div>
+              <button type="submit" class="btn btn-primary-glow w-100 py-3" style="font-size:1rem;">
+                <i class="fa fa-sign-in-alt me-2"></i>Sign In
+              </button>
+            </form>
+            <p class="text-center mt-3" style="color:var(--text-muted);font-size:.85rem;">
+              Don't have an account? <a href="#" onclick="switchTab('register')" style="color:var(--primary);">Create one</a>
+            </p>
+          </div>
+
+          <!-- Register Form -->
+          <div id="registerPanel" style="display:none;">
+            <form id="registerForm" autocomplete="off">
+              <div class="row g-3 mb-3">
+                <div class="col-sm-6">
+                  <label class="form-label-glass">First Name</label>
+                  <input id="regFirst" type="text" class="form-glass" placeholder="Arjun" required>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label-glass">Last Name</label>
+                  <input id="regLast" type="text" class="form-glass" placeholder="Sharma" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label-glass">Email Address</label>
+                <input id="regEmail" type="email" class="form-glass" placeholder="you@example.com" required>
+              </div>
+              <div class="mb-4">
+                <label class="form-label-glass">Password <span style="color:var(--text-muted);font-size:.78rem;">(min. 6 characters)</span></label>
+                <input id="regPass" type="password" class="form-glass" placeholder="••••••••" required minlength="6">
+              </div>
+              <button type="submit" class="btn btn-accent-glow w-100 py-3" style="font-size:1rem;">
+                <i class="fa fa-user-plus me-2"></i>Create Account
+              </button>
+            </form>
+            <p class="text-center mt-3" style="color:var(--text-muted);font-size:.85rem;">
+              Already have an account? <a href="#" onclick="switchTab('login')" style="color:var(--primary);">Sign in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function switchTab(tab) {
+  document.getElementById('loginPanel').style.display    = tab === 'login'    ? 'block' : 'none';
+  document.getElementById('registerPanel').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('loginTab').className    = tab === 'login'    ? 'btn btn-primary-glow px-4' : 'btn btn-glass px-4';
+  document.getElementById('registerTab').className = tab === 'register' ? 'btn btn-primary-glow px-4' : 'btn btn-glass px-4';
+}
+</script>
+{% endblock %}

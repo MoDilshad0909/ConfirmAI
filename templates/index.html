@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}ConfirmAI – Smart Waitlist Confirmation Predictor{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="section-hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <span class="badge" style="background:rgba(108,99,255,0.2);color:var(--primary);border:1px solid rgba(108,99,255,0.3);padding:6px 14px;border-radius:50px;font-size:.8rem;font-weight:600;">
+            🚄 Powered by XGBoost AI
+          </span>
+        </div>
+        <h1 class="hero-heading mb-4">
+          Know Your <span class="gradient-text">Waitlist</span><br>Before It Matters
+        </h1>
+        <p class="hero-sub mb-5">
+          ConfirmAI predicts railway ticket confirmation probability in real-time using machine learning — so you can travel with confidence, not guesswork.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="/dashboard" class="btn btn-primary-glow btn-lg">
+            <i class="fa fa-magic me-2"></i>Predict My Ticket
+          </a>
+          <a href="/login" class="btn btn-glass btn-lg">
+            <i class="fa fa-user me-2"></i>Sign In
+          </a>
+        </div>
+
+        <!-- Hero stats -->
+        <div class="d-flex flex-wrap gap-4 mt-5">
+          <div>
+            <div class="font-outfit fw-800" style="font-size:1.8rem;font-weight:800;">90.3%</div>
+            <div style="color:var(--text-muted);font-size:.82rem;">Model Accuracy</div>
+          </div>
+          <div style="width:1px;background:var(--border-glass);"></div>
+          <div>
+            <div class="font-outfit fw-800" style="font-size:1.8rem;font-weight:800;">100K+</div>
+            <div style="color:var(--text-muted);font-size:.82rem;">Records Trained On</div>
+          </div>
+          <div style="width:1px;background:var(--border-glass);"></div>
+          <div>
+            <div class="font-outfit fw-800" style="font-size:1.8rem;font-weight:800;">&lt;150ms</div>
+            <div style="color:var(--text-muted);font-size:.82rem;">Prediction Latency</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <!-- Animated SVG Train Illustration -->
+        <svg class="hero-illustration" viewBox="0 0 520 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="60" y="180" width="400" height="140" rx="24" fill="rgba(108,99,255,0.15)" stroke="rgba(108,99,255,0.3)" stroke-width="2"/>
+          <rect x="80" y="200" width="100" height="90" rx="10" fill="rgba(108,99,255,0.2)" stroke="rgba(108,99,255,0.4)" stroke-width="1.5"/>
+          <rect x="200" y="200" width="100" height="90" rx="10" fill="rgba(6,214,160,0.15)" stroke="rgba(6,214,160,0.3)" stroke-width="1.5"/>
+          <rect x="320" y="200" width="100" height="90" rx="10" fill="rgba(108,99,255,0.2)" stroke="rgba(108,99,255,0.4)" stroke-width="1.5"/>
+          <circle cx="130" cy="330" r="22" fill="rgba(108,99,255,0.3)" stroke="rgba(108,99,255,0.6)" stroke-width="2"/>
+          <circle cx="260" cy="330" r="22" fill="rgba(108,99,255,0.3)" stroke="rgba(108,99,255,0.6)" stroke-width="2"/>
+          <circle cx="390" cy="330" r="22" fill="rgba(108,99,255,0.3)" stroke="rgba(108,99,255,0.6)" stroke-width="2"/>
+          <rect x="40" y="360" width="440" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+          <!-- Probability meter -->
+          <rect x="150" y="60" width="220" height="90" rx="16" fill="rgba(6,214,160,0.1)" stroke="rgba(6,214,160,0.3)" stroke-width="1.5"/>
+          <text x="260" y="95" text-anchor="middle" fill="#06d6a0" font-size="22" font-weight="800" font-family="Inter">82%</text>
+          <text x="260" y="118" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="11" font-family="Inter">CNF Probability</text>
+          <rect x="170" y="128" width="180" height="8" rx="4" fill="rgba(255,255,255,0.08)"/>
+          <rect x="170" y="128" width="148" height="8" rx="4" fill="url(#barGrad)"/>
+          <defs>
+            <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#06d6a0"/>
+              <stop offset="100%" stop-color="#04a67b"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section style="position:relative;z-index:1;padding:80px 0;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="font-outfit fw-bold mb-3" style="font-size:2rem;">Why <span class="gradient-text">ConfirmAI?</span></h2>
+      <p style="color:var(--text-muted);max-width:520px;margin:0 auto;">Combining domain expertise with machine learning to take the uncertainty out of railway travel.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-sm-6 col-lg-3">
+        <div class="glass-card p-4 h-100">
+          <div class="feature-icon purple"><i class="fa fa-brain" style="color:var(--primary);"></i></div>
+          <h5 class="fw-700 mb-2" style="font-weight:700;">AI Prediction</h5>
+          <p style="color:var(--text-muted);font-size:.88rem;">XGBoost model trained on 100K+ records gives 90%+ accurate confirmation probabilities.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="glass-card p-4 h-100">
+          <div class="feature-icon green"><i class="fa fa-route" style="color:var(--accent);"></i></div>
+          <h5 class="fw-700 mb-2" style="font-weight:700;">Smart Recommendations</h5>
+          <p style="color:var(--text-muted);font-size:.88rem;">Automatically suggests alternative trains, dates, and classes when confirmation is unlikely.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="glass-card p-4 h-100">
+          <div class="feature-icon yellow"><i class="fa fa-shield-halved" style="color:var(--warning);"></i></div>
+          <h5 class="fw-700 mb-2" style="font-weight:700;">Risk Analysis</h5>
+          <p style="color:var(--text-muted);font-size:.88rem;">Three-level risk scoring (LOW / MEDIUM / HIGH) so you always know when to act.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="glass-card p-4 h-100">
+          <div class="feature-icon red"><i class="fa fa-clock-rotate-left" style="color:var(--danger);"></i></div>
+          <h5 class="fw-700 mb-2" style="font-weight:700;">History Tracking</h5>
+          <p style="color:var(--text-muted);font-size:.88rem;">Keep track of all past predictions and monitor status changes over time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section style="position:relative;z-index:1;padding:60px 0 80px;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="font-outfit fw-bold mb-3" style="font-size:2rem;">How It <span class="gradient-text">Works</span></h2>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-start gap-3">
+            <div class="step-number">1</div>
+            <div>
+              <h6 class="fw-700 mb-1" style="font-weight:700;">Enter Ticket Details</h6>
+              <p style="color:var(--text-muted);font-size:.88rem;margin:0;">Input your train number, waitlist position, class, and journey date.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-start gap-3">
+            <div class="step-number">2</div>
+            <div>
+              <h6 class="fw-700 mb-1" style="font-weight:700;">AI Analyses Patterns</h6>
+              <p style="color:var(--text-muted);font-size:.88rem;margin:0;">Our XGBoost model evaluates seasonality, capacity, and historical clearance rates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+          <div class="d-flex align-items-start gap-3">
+            <div class="step-number">3</div>
+            <div>
+              <h6 class="fw-700 mb-1" style="font-weight:700;">Get Instant Results</h6>
+              <p style="color:var(--text-muted);font-size:.88rem;margin:0;">Receive a probability breakdown and smart recommendations in under 150ms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-5">
+      <a href="/dashboard" class="btn btn-primary-glow btn-lg px-5">
+        <i class="fa fa-bolt me-2"></i>Try It Now — Free
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile App Download Section -->
+<section style="position:relative;z-index:1;padding:80px 0;background:rgba(108,99,255,0.05);border-top:1px solid rgba(108,99,255,0.1);border-bottom:1px solid rgba(108,99,255,0.1);">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h2 class="font-outfit fw-bold mb-3" style="font-size:2.5rem;">Take ConfirmAI <span class="gradient-text">Anywhere</span></h2>
+        <p style="color:var(--text-muted);font-size:1.1rem;margin-bottom:30px;max-width:500px;margin-left:auto;margin-right:auto;" class="mx-lg-0">
+          Get real-time waitlist predictions, smart recommendations, and your complete history right from your pocket with our new mobile app.
+        </p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+          <a href="/download-app" class="btn btn-primary-glow btn-lg d-flex align-items-center gap-2">
+            <i class="fa-brands fa-android fs-4"></i>
+            <div class="text-start">
+              <div style="font-size:.7rem;line-height:1;opacity:0.8;">Download for</div>
+              <div style="font-size:1.1rem;line-height:1;font-weight:700;">Android APK</div>
+            </div>
+          </a>
+          <button class="btn btn-glass btn-lg d-flex align-items-center gap-2" disabled style="opacity:0.6;">
+            <i class="fa-brands fa-apple fs-4"></i>
+            <div class="text-start">
+              <div style="font-size:.7rem;line-height:1;opacity:0.8;">Coming soon on</div>
+              <div style="font-size:1.1rem;line-height:1;font-weight:700;">iOS App Store</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center">
+        <div class="glass-card d-inline-block p-4" style="border-radius:24px;">
+          <h5 class="fw-bold mb-3">Scan to Download</h5>
+          <div style="background:#fff;padding:15px;border-radius:16px;display:inline-block;">
+            <img src="{{ url_for('static', filename='img/download-qr.png') }}" alt="QR Code" width="180" height="180">
+          </div>
+          <p class="mt-3 mb-0 small" style="color:var(--text-muted);">Point your camera here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

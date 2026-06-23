@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}Passenger Profile – ConfirmAI{% endblock %}
+{% block content %}
+<div style="position:relative;z-index:1;padding:50px 0 80px;">
+  <div class="container">
+    <div class="d-flex align-items-center gap-3 mb-5">
+      <a href="/dashboard" class="btn btn-glass btn-sm"><i class="fa fa-arrow-left me-1"></i>Back</a>
+      <h1 class="font-outfit fw-bold mb-0" style="font-size:1.7rem;font-weight:800;">My <span class="gradient-text">Profile</span></h1>
+    </div>
+
+    <div class="row g-4">
+      <!-- Left Column: Personal Details & Actions -->
+      <div class="col-lg-4">
+        <!-- Personal Details -->
+        <div class="glass-card p-4 mb-4">
+          <h6 class="fw-700 mb-4" style="font-weight:700;"><i class="fa fa-user me-2" style="color:var(--primary);"></i>Personal Details</h6>
+          <div class="d-flex flex-column gap-3" style="font-size:0.9rem;">
+            <div>
+              <div style="color:var(--text-muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Full Name</div>
+              <div class="fw-600" id="prof-fullname">–</div>
+            </div>
+            <div>
+              <div style="color:var(--text-muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Email Address</div>
+              <div class="fw-600" id="prof-email">–</div>
+            </div>
+            <div>
+              <div style="color:var(--text-muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Role</div>
+              <div class="fw-600 badge bg-secondary" style="font-size:0.75rem;" id="prof-role">–</div>
+            </div>
+            <div>
+              <div style="color:var(--text-muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Account Created</div>
+              <div class="fw-600" id="prof-created">–</div>
+            </div>
+            <div>
+              <div style="color:var(--text-muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Last Login Time</div>
+              <div class="fw-600" id="prof-login">–</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Actions -->
+        <div class="glass-card p-4">
+          <h6 class="fw-700 mb-4" style="font-weight:700;"><i class="fa fa-cogs me-2" style="color:var(--primary);"></i>Account Actions</h6>
+          <div class="d-flex flex-column gap-3">
+            <button class="btn btn-glass w-100 text-start" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+              <i class="fa fa-edit me-2" style="color:var(--accent);"></i> Edit Profile
+            </button>
+            <button class="btn btn-glass w-100 text-start" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+              <i class="fa fa-lock me-2" style="color:var(--warning);"></i> Change Password
+            </button>
+            <button class="btn btn-glass w-100 text-start" onclick="logout()" style="color:var(--danger);">
+              <i class="fa fa-sign-out-alt me-2"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Stats & Activity -->
+      <div class="col-lg-8">
+        <!-- Statistics -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="glass-card p-4 text-center h-100">
+              <div class="stat-icon" style="color:var(--primary);"><i class="fa fa-chart-pie"></i></div>
+              <div class="stat-value" id="stat-total">0</div>
+              <div class="stat-label">Total Predictions</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="glass-card p-4 text-center h-100">
+              <div class="stat-icon" style="color:var(--accent);"><i class="fa fa-check-circle"></i></div>
+              <div class="stat-value" id="stat-avg-cnf">0%</div>
+              <div class="stat-label">Avg CNF Probability</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="glass-card p-4 text-center h-100 d-flex flex-column justify-content-center">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge-cnf" style="font-size:0.7rem;">CNF</span>
+                <span class="fw-bold" id="stat-cnf">0</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge-rac" style="font-size:0.7rem;">RAC</span>
+                <span class="fw-bold" id="stat-rac">0</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge-wl" style="font-size:0.7rem;">WL</span>
+                <span class="fw-bold" id="stat-wl">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="glass-card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h6 class="fw-700 mb-0" style="font-weight:700;"><i class="fa fa-history me-2" style="color:var(--primary);"></i>Recent Activity</h6>
+            <span style="font-size:0.8rem;color:var(--text-muted);">Latest 5 predictions</span>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table table-glass table-borderless align-middle mb-0">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-glass);">
+                  <th>Train</th>
+                  <th>Route</th>
+                  <th>Journey Date</th>
+                  <th>Status</th>
+                  <th>Predicted On</th>
+                </tr>
+              </thead>
+              <tbody id="recentActivityBody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background:var(--bg-dark);border:1px solid var(--border-glass);box-shadow:var(--shadow-glow);">
+      <div class="modal-header" style="border-bottom:1px solid var(--border-glass);">
+        <h5 class="modal-title font-outfit fw-bold">Edit Profile</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editProfileForm">
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label-glass">First Name</label>
+            <input type="text" class="form-glass" id="editFirstName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label-glass">Last Name</label>
+            <input type="text" class="form-glass" id="editLastName" required>
+          </div>
+        </div>
+        <div class="modal-footer" style="border-top:1px solid var(--border-glass);">
+          <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary-glow px-4">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background:var(--bg-dark);border:1px solid var(--border-glass);box-shadow:var(--shadow-glow);">
+      <div class="modal-header" style="border-bottom:1px solid var(--border-glass);">
+        <h5 class="modal-title font-outfit fw-bold">Change Password</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="changePasswordForm">
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label-glass">Current Password</label>
+            <input type="password" class="form-glass" id="currentPassword" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label-glass">New Password</label>
+            <input type="password" class="form-glass" id="newPassword" required minlength="6">
+          </div>
+        </div>
+        <div class="modal-footer" style="border-top:1px solid var(--border-glass);">
+          <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary-glow px-4">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

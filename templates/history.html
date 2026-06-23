@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Prediction History – ConfirmAI{% endblock %}
+{% block content %}
+<div style="position:relative;z-index:1;padding:50px 0 80px;">
+  <div class="container">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-5">
+      <div>
+        <h1 class="font-outfit fw-bold mb-1" style="font-size:2rem;font-weight:800;">My <span class="gradient-text">History</span></h1>
+        <p style="color:var(--text-muted);margin:0;">Your last 20 prediction queries</p>
+      </div>
+      <a href="/dashboard" class="btn btn-primary-glow"><i class="fa fa-plus me-2"></i>New Prediction</a>
+    </div>
+
+    <div class="glass-card p-0" style="overflow:hidden;">
+      <div style="overflow-x:auto;">
+        <table class="table table-glass mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Train</th>
+              <th>Route</th>
+              <th>Journey Date</th>
+              <th>Class</th>
+              <th>WL Position</th>
+              <th>Prediction</th>
+              <th>Risk</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <tr>
+              <td colspan="9" class="text-center py-5" style="color:var(--text-muted);">
+                <div class="spinner-glow mx-auto mb-2"></div>
+                Loading history…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <p style="color:var(--text-muted);font-size:.85rem;">Predictions are automatically logged when you use the predictor.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

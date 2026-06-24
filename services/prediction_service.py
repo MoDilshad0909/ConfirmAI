@@ -1,24 +1,22 @@
 import pickle
 import numpy as np
 from datetime import datetime
+# pyrefly: ignore [missing-import]
 from flask import current_app
 
 _pipeline = None
 
 
-def init_pipeline(app):
-    """Pre-load the ML model globally during app startup to avoid cold-start latency."""
+def _load_pipeline():
     global _pipeline
     if _pipeline is None:
-        with open(app.config["ML_MODEL_PATH"], "rb") as f:
+        with open(current_app.config["ML_MODEL_PATH"], "rb") as f:
             _pipeline = pickle.load(f)
-        app.logger.info("XGBoost Model loaded successfully.")
-
-def _get_pipeline():
-    global _pipeline
-    if _pipeline is None:
-        init_pipeline(current_app)
     return _pipeline
+
+def init_pipeline(app):
+    with app.app_context():
+        _load_pipeline()
 
 
 def _compute_features(data: dict) -> dict:
@@ -35,62 +33,22 @@ def _compute_features(data: dict) -> dict:
         "Destination_Station": data["destination_station"],
         "Class_Type": data["class_type"],
         "Quota_Type": data["quota_type"],
-        "Seat_Capacity": int(data.get("seat_capacity", 256)),
+        "Seat_Capacity": int(data["seat_capacity"]),
         "Booking_WL": int(data["booking_wl"]),
         "Current_WL": int(data["current_wl"]),
         "Current_RAC": int(data["current_rac"]),
-        "Distance_KM": int(data.get("distance_km", 1400)),
-        "Festival_Season": int(data.get("festival_season", 0)),
+        "Distance_KM": int(data["distance_km"]),
+        "Festival_Season": int(data["festival_season"]),
         "Booking_Days_Before": booking_days_before,
         "Day_Of_Week": day_of_week,
         "Month": month,
     }
 
 
-def _generate_explanation(feat_dict: dict, predicted_class: str) -> dict:
-    positives = []
-    negatives = []
-
-    if predicted_class == "CNF":
-        if feat_dict["Booking_Days_Before"] > 60:
-            positives.append(f"Booking {feat_dict['Booking_Days_Before']} days earlier")
-        if feat_dict["Current_WL"] < 20:
-            positives.append("Low Current WL")
-        if feat_dict["Seat_Capacity"] > 800:
-            positives.append("High Capacity")
-        if feat_dict["Festival_Season"] == 1:
-            negatives.append("Festival Season (High Demand)")
-        elif feat_dict["Current_WL"] > 0:
-            negatives.append("Already in Waitlist")
-            
-        return {"why_positive": positives, "why_negative": negatives, "positive_label": "Why CNF?", "negative_label": "Why not WL?"}
-        
-    elif predicted_class == "WL":
-        if feat_dict["Festival_Season"] == 1:
-            positives.append("Festival Season Rush")
-        if feat_dict["Current_WL"] > 50:
-            positives.append("High Current WL")
-        if feat_dict["Booking_Days_Before"] < 10:
-            positives.append("Last Minute Booking")
-        if feat_dict["Seat_Capacity"] > 1000:
-            negatives.append("High Train Capacity")
-            
-        return {"why_positive": positives, "why_negative": negatives, "positive_label": "Why WL?", "negative_label": "Why not CNF?"}
-
-    else: # RAC
-        if feat_dict["Current_RAC"] > 0:
-            positives.append("Already in RAC")
-        if feat_dict["Booking_Days_Before"] > 30:
-            positives.append("Decent advance booking")
-        if feat_dict["Festival_Season"] == 1:
-            negatives.append("Festival Season")
-            
-        return {"why_positive": positives, "why_negative": negatives, "positive_label": "Why RAC?", "negative_label": "Why not CNF?"}
-
 def predict_status(data: dict) -> dict:
     import pandas as pd
 
-    pipeline = _get_pipeline()
+    pipeline = _load_pipeline()
     preprocessor = pipeline["preprocessor"]
     model = pipeline["model"]
     features = pipeline["features"]
@@ -140,8 +98,6 @@ def predict_status(data: dict) -> dict:
         risk = "MEDIUM"
     else:
         risk = "HIGH"
-        
-    explanation = _generate_explanation(feat_dict, predicted_class)
 
     return {
         "prediction": predicted_class,
@@ -150,5 +106,4 @@ def predict_status(data: dict) -> dict:
         "probability_wl": prob_wl,
         "risk_level": risk,
         "booking_days_before": feat_dict["Booking_Days_Before"],
-        "explanation": explanation
     }
